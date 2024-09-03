@@ -67,7 +67,7 @@ function Processor() {
           )}
         </button>
         {isDownloaded && (
-          <p className="text-center text-green-600">¡El archivo ha sido descargado con éxito!</p>
+          <p className="text-center text-green-600">¡El catálogo ha sido generado exitosamente!</p>
         )}
       </div>
     </div>
