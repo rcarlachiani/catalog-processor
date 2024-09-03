@@ -48,7 +48,7 @@ function Processor() {
           accept=".xls,.xlsx"
           className="border border-gray-300/50 rounded-md w-full"
           onChange={handleFileUpload}
-          ref={fileInputRef} // Asignar la referencia al input
+          ref={fileInputRef}
         />
         <button
           className={`rounded-lg p-2 w-full flex items-center justify-center transition-colors duration-300 ${
@@ -60,10 +60,10 @@ function Processor() {
           {isLoading ? (
             <>
               <ClipLoader size={20} color={'#fff'} loading={true} />
-              <span className="ml-2">Procesando...</span>
+              <span className="ml-2">Generando...</span>
             </>
           ) : (
-            'Procesar y descargar'
+            'Generar nuevo catálogo'
           )}
         </button>
         {isDownloaded && (

@@ -91,10 +91,30 @@ export const useProcessor = () => {
       if (isInAllFiles) {
         const hasStock = groupedData[barcode].some((item) => item.Stock === 'Sí')
         if (hasStock) {
-          finalData = [...finalData, ...groupedData[barcode]]
+          const sortedGroup = groupedData[barcode].sort((a, b) => a.Precio - b.Precio)
+
+          const firstItemWithFormat = sortedGroup.find((item) => item.Formato)
+          const formatToAssign = firstItemWithFormat ? firstItemWithFormat.Formato : ''
+
+          const updatedItems = sortedGroup.map((item) => ({
+            ...item,
+            Formato: formatToAssign
+          }))
+
+          finalData = [...finalData, ...updatedItems]
         }
       } else {
-        finalData = [...finalData, ...groupedData[barcode]]
+        const sortedGroup = groupedData[barcode].sort((a, b) => a.Precio - b.Precio)
+
+        const firstItemWithFormat = sortedGroup.find((item) => item.Formato)
+        const formatToAssign = firstItemWithFormat ? firstItemWithFormat.Formato : ''
+
+        const updatedItems = sortedGroup.map((item) => ({
+          ...item,
+          Formato: formatToAssign
+        }))
+
+        finalData = [...finalData, ...updatedItems]
       }
     })
 
@@ -257,7 +277,7 @@ export const useProcessor = () => {
 
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], { type: 'application/octet-stream' })
-      saveAs(blob, 'processed_data.xlsx')
+      saveAs(blob, 'processed_catalog.xlsx')
     })
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "catalog-processor",
   "version": "1.0.0",
-  "description": "Procesador de catálogos musicales",
+  "description": "Procesador de Catalogos Musicales",
   "main": "./out/main/index.js",
   "author": "Rodrigo Carlachiani",
   "homepage": "https://electron-vite.org",
@@ -44,7 +44,7 @@
   },
   "build": {
     "appId": "com.example.catalogprocessor",
-    "productName": "Procesador de catalogos",
+    "productName": "Procesador de Catalogos",
     "copyright": "Copyright © 2024 Rodrigo Carlachiani",
     "files": [
       "out/**/*",
