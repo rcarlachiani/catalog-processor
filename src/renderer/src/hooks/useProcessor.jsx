@@ -87,6 +87,7 @@ export const useProcessor = () => {
       if (!fileSet) return
 
       const isInAllFiles = fileSet.size === files.length
+      const isInOneFile = fileSet.size === 1
 
       if (isInAllFiles) {
         const hasStock = groupedData[barcode].some((item) => item.Stock === 'Sí')
@@ -103,18 +104,21 @@ export const useProcessor = () => {
 
           finalData = [...finalData, ...updatedItems]
         }
-      } else {
-        const sortedGroup = groupedData[barcode].sort((a, b) => a.Precio - b.Precio)
+      } else if (isInOneFile) {
+        const hasStock = groupedData[barcode].some((item) => item.Stock === 'Sí')
+        if (hasStock) {
+          const sortedGroup = groupedData[barcode].sort((a, b) => a.Precio - b.Precio)
 
-        const firstItemWithFormat = sortedGroup.find((item) => item.Formato)
-        const formatToAssign = firstItemWithFormat ? firstItemWithFormat.Formato : ''
+          const firstItemWithFormat = sortedGroup.find((item) => item.Formato)
+          const formatToAssign = firstItemWithFormat ? firstItemWithFormat.Formato : ''
 
-        const updatedItems = sortedGroup.map((item) => ({
-          ...item,
-          Formato: formatToAssign
-        }))
+          const updatedItems = sortedGroup.map((item) => ({
+            ...item,
+            Formato: formatToAssign
+          }))
 
-        finalData = [...finalData, ...updatedItems]
+          finalData = [...finalData, ...updatedItems]
+        }
       }
     })
 
@@ -130,7 +134,13 @@ export const useProcessor = () => {
       ) {
         return 1
       }
-      if (formatLower.includes('cd')) {
+      if (
+        formatLower.includes('cd') ||
+        formatLower.includes('cs') ||
+        formatLower.includes('compact') ||
+        formatLower.includes('compact disc') ||
+        formatLower.includes('cdrom')
+      ) {
         return 2
       }
       if (
@@ -151,15 +161,11 @@ export const useProcessor = () => {
         return priorityA - priorityB
       }
 
-      if (a.Formato === b.Formato) {
-        if (a.Código === b.Código) {
-          return a.Precio - b.Precio
-        }
-
+      if (a.Código !== b.Código) {
         return a.Código.localeCompare(b.Código)
       }
 
-      return 0
+      return a.Precio - b.Precio
     })
 
     generateExcel(finalData)
@@ -277,7 +283,7 @@ export const useProcessor = () => {
 
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], { type: 'application/octet-stream' })
-      saveAs(blob, 'processed_catalog.xlsx')
+      saveAs(blob, 'MUSICONO - CATALOGO COMPLETO.xlsx')
     })
   }
 

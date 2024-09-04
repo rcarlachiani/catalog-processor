@@ -1,19 +1,30 @@
+import { useEffect } from 'react'
 import { ClipLoader } from 'react-spinners'
 import { useProcessor } from '../hooks/useProcessor'
 import logo from '../assets/images/ono_logo.webp'
+import { toast } from 'react-toastify'
 
 function Processor() {
   const { hasFiles, isLoading, isDownloaded, fileInputRef, processFiles, handleFileUpload } =
     useProcessor()
 
+  useEffect(() => {
+    if (isDownloaded) {
+      toast.success('¡El catálogo ha sido generado exitosamente!')
+    }
+  }, [isDownloaded])
+
   return (
-    <div className="container flex flex-col justify-center items-center gap-5 max-w-lg">
+    <div className="container flex flex-col justify-center items-center gap-6 max-w-lg">
       <div>
         <img src={logo} alt="musicono logo" width={180} />
       </div>
-      <h1 className="text-2xl font-bold text-center">Procesador de Catálogos</h1>
+      <div>
+        <h1 className="text-3xl font-bold text-center">Musicono</h1>
+        <h2 className="text-xl font-bold text-center">Procesador de Catálogos</h2>
+      </div>
       <div className="flex flex-col justify-center items-center gap-8">
-        <p className="text-center text-sm">
+        <p className="text-center text-xs">
           La App realiza un primer ordenamiento de datos por
           <br /> UPC/Código de barras, luego, por cada grupo de códigos,
           <br /> se ordena por precio de menor a mayor, mostrando primero
@@ -34,14 +45,14 @@ function Processor() {
           si uno de los archivos es .xls, deberá realizar la conversión
           <br /> individual del archivo en cuestión antes de procesar.
         </p>
-        <p className="text-center text-sm">
+        <p className="text-center text-xs">
           Cargue los 3 archivos y oprima
           <span className="font-bold italic"> Procesar y descargar </span>
           <br />
           para obtener un único catálogo unificado y clasificado.
         </p>
       </div>
-      <div className="flex flex-col justify-center items-center gap-3 max-w-lg mt-6">
+      <div className="flex flex-col justify-center items-center gap-3 max-w-lg mt-3">
         <input
           type="file"
           multiple
@@ -66,9 +77,6 @@ function Processor() {
             'Generar nuevo catálogo'
           )}
         </button>
-        {isDownloaded && (
-          <p className="text-center text-green-600">¡El catálogo ha sido generado exitosamente!</p>
-        )}
       </div>
     </div>
   )
