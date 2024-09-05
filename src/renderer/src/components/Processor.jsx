@@ -5,7 +5,7 @@ import logo from '../assets/images/ono_logo.webp'
 import { toast } from 'react-toastify'
 
 function Processor() {
-  const { hasFiles, isLoading, isDownloaded, fileInputRef, processFiles, handleFileUpload } =
+  const { files, hasFiles, isLoading, isDownloaded, fileInputRef, processFiles, handleFileUpload } =
     useProcessor()
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function Processor() {
           <br />
           Actualmente, está configurada para procesar los catálogos
           <br />
-          de los siguientes proveedores: <span className="font-bold italic">AF</span>,
+          de los siguientes proveedores: <span className="font-extrabold italic">AF</span>,
           <span className="font-bold italic"> DBN</span>, y
           <span className="font-bold italic"> LEF</span>.
           <br />
@@ -52,17 +52,27 @@ function Processor() {
           para obtener un único catálogo unificado y clasificado.
         </p>
       </div>
-      <div className="flex flex-col justify-center items-center gap-3 max-w-lg mt-3">
+      <div className="flex flex-col justify-center items-center gap-3 w-full mt-3">
+        <label
+          htmlFor="file-input"
+          disabled={isLoading}
+          className={`rounded-lg p-1 cursor-pointer w-full text-center ${
+            isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
+          }`}
+        >
+          {hasFiles ? `${files.length} archivos cargados` : 'Cargar archivos'}
+        </label>
         <input
           type="file"
           multiple
-          accept=".xls,.xlsx"
-          className="border border-gray-300/50 rounded-md w-full"
+          accept=".xlsx"
+          className="file-input hidden"
+          id="file-input"
           onChange={handleFileUpload}
           ref={fileInputRef}
         />
         <button
-          className={`rounded-lg p-2 w-full flex items-center justify-center transition-colors duration-300 ${
+          className={`rounded-lg p-1 w-full flex items-center justify-center transition-colors duration-300 ${
             isLoading || !hasFiles ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
           }`}
           onClick={processFiles}
@@ -74,7 +84,7 @@ function Processor() {
               <span className="ml-2">Generando...</span>
             </>
           ) : (
-            'Generar nuevo catálogo'
+            'Generar catálogo'
           )}
         </button>
       </div>

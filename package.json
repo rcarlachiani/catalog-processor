@@ -4,7 +4,6 @@
   "description": "Procesador de Catalogos Musicales",
   "main": "./out/main/index.js",
   "author": "Rodrigo Carlachiani",
-  "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
@@ -45,7 +44,7 @@
   },
   "build": {
     "appId": "com.example.catalogprocessor",
-    "productName": "Procesador de Catalogos",
+    "productName": "Musicono - Procesador de Catalogos",
     "copyright": "Copyright © 2024 Rodrigo Carlachiani",
     "files": [
       "out/**/*",
@@ -58,9 +57,7 @@
     },
     "win": {
       "icon": "src/renderer/src/assets/icons/icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "target": "nsis"
     }
   }
 }

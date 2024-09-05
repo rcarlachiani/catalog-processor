@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import * as ExcelJS from 'exceljs'
 import { saveAs } from 'file-saver'
+import { toast } from 'react-toastify'
 
 export const useProcessor = () => {
   const [files, setFiles] = useState([])
@@ -19,6 +20,13 @@ export const useProcessor = () => {
 
   const handleFileUpload = (event) => {
     const uploadedFiles = Array.from(event.target.files)
+    const invalidFiles = uploadedFiles.filter((file) => !file.name.endsWith('.xlsx'))
+
+    if (invalidFiles.length > 0) {
+      toast.error('Solo se permiten archivos en formato .xlsx')
+      return
+    }
+
     setFiles(uploadedFiles)
     setHasFiles(uploadedFiles.length > 0)
     setIsDownloaded(false)
@@ -288,6 +296,7 @@ export const useProcessor = () => {
   }
 
   return {
+    files,
     hasFiles,
     isLoading,
     isDownloaded,
